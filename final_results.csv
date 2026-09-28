@@ -1,0 +1,39 @@
+"code","name","average_per_event","uncertainty"
+211,"E. coli WT",19.94948,0.03274
+-211,"E. coli mutant",19.91716,0.03187
+321,"Bacillus subtilis WT",2.50914,0.00477
+-321,"Bacillus subtilis mutant",2.50345,0.0055
+130,"Unknown",2.4784,0.00562
+310,"Unknown",2.47711,0.00534
+2212,"Pseudomonas aeruginosa WT",1.20803,0.0019
+-2212,"Pseudomonas aeruginosa antibiotic-resistant",1.18416,0.00241
+3122,"Streptococcus pneumoniae",0.27659,0.00107
+-3122,"Capsule-deficient S. pneumoniae",0.27169,0.00098
+3212,"Unknown",0.15309,0.00057
+-3212,"Unknown",0.15137,0.00079
+3222,"Unknown",0.14953,0.00064
+3112,"Unknown",0.14896,0.00058
+-3222,"Unknown",0.14779,0.00054
+-3112,"Unknown",0.14694,0.00056
+3312,"Mycobacterium tuberculosis",0.03944,0.00028
+3322,"Unknown",0.03922,0.00018
+-3312,"Drug-resistant M. tuberculosis",0.039,0.0004
+-3322,"Unknown",0.03895,0.0003
+-431,"Unknown",0.01173,0.00017
+431,"Unknown",0.01168,0.00013
+3334,"Salmonella enterica",0.00119,0.00004
+-3334,"Salmonella mutant",0.00115,0.00005
+531,"Unknown",0.00097,0.00006
+-531,"Unknown",0.00094,0.00005
+4232,"Unknown",0.00059,0.00003
+-4232,"Unknown",0.00058,0.00003
+-4132,"Unknown",0.00057,0.00003
+4132,"Unknown",0.00057,0.00004
+-5232,"Unknown",0.00005,0.00001
+5132,"Unknown",0.00005,0.00002
+5232,"Unknown",0.00005,0.00001
+-5132,"Unknown",0.00004,0.00001
+-5332,"Unknown",NA,0
+-4332,"Unknown",NA,0.00001
+4332,"Unknown",NA,0.00001
+5332,"Unknown",NA,0.00001

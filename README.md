@@ -1,2 +1,9 @@
-# PRA2003_Week4
-Counting bacterial strains per event in 5M events with R, with statistical uncertainties from the sub-sampling method (PRA2003 Assignment, Week 4).
+Biology theme, coded in R
+
+What are the average counts of each bacterial stain and
+their statistical uncertainties?
+- Is there any asymmetry between the normal and the
+mutant strain?
+‣ Quantify!!!
+- Is there any asymmetry as a function of their momentum?
+‣ Quantify!!!
