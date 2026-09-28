@@ -95,6 +95,18 @@ the result is a number per event, it has no unit.
 
 ## 6. Results
 
+New message from panos, which i still need to make sure to include on a later day
+Dear all,
+
+let me stress that the results that you are going to include in your updated README.md file should not contain only the average numbers per event for each ID together with their respective  uncertainties.
+
+These numbers allow you to answer the question of whether you have an asymmetry between the normal bacteria and the mutation strains, the various molecule pairs or between particles and antiparticles (i.e. the initial question you had to answer). This answer, for every pair of IDs (e.g. 211 vs -211, 321 vs -321,...), should also be reported and should not be based on your feelings but on your numbers so make sure you argue why you answer the way you do.
+
+You do have all the tools to answer this!
+Best regards
+
+Panos
+
 ### 6.1 Average count per event (5M events, 10 sub-samples)
 
 | ID | Strain | Total count | Average / event | Uncertainty |
