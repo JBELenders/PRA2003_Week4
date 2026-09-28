@@ -32,7 +32,7 @@ and E. coli mutant = -211).
 | File | Purpose |
 |---|---|
 | `README.md` | Current file |
-| `<Week4Sub_Sample.R>` | Counts every ID in each of the 10 data files and creates all of the sub-samples |
+| `<Week4Sub_Sampling.R>` | Counts every ID in each of the 10 data files and creates all of the sub-samples |
 | `<Week4Analysis.R>` | Combines the 10 sub-samples and computes the final averages and uncertainties |
 | `sub_sample_results.csv` | Output of part 1: count and average per ID for each file |
 | `final_results.csv` | Output of part 2: final average ± uncertainty per ID |
