@@ -32,10 +32,10 @@ and E. coli mutant = -211).
 | File | Purpose |
 |---|---|
 | `README.md` | Current file |
-| `<Week4Sub_Sampling.R>` | Counts every ID in each of the 10 data files and creates all of the sub-samples |
-| `<Week4Analysis.R>` | Combines the 10 sub-samples and computes the final averages and uncertainties |
-| `sub_sample_results.csv` | Output of part 1: count and average per ID for each file |
-| `final_results.csv` | Output of part 2: final average ± uncertainty per ID |
+| `<Week4Sub_Sampling.R>` | Counts every ID in each of the 10 data files, creating all of the sub-samples, which are outputted in a csv file as a list |
+| `<Week4Analysis.R>` | Reads the list and computes the final averages and uncertainties |
+| `sub_sample_results.csv` | Output of "Week4Sub_Sampling.R": count and average per ID for each file |
+| `final_results.csv` | Output of "Week4Analysis.R": final average ± uncertainty per ID |
 
 The raw data files (`output-Set1.txt` … `output-Set10.txt`, about 800 MB
 each) are **not** included in the repository due to their size. They
@@ -61,6 +61,7 @@ reproduced without the raw data files.
   bacteria), followed by one line per bacterium: three momentum components
   and the bacterial ID.
 - The IDs of the 12 strains of interest are:
+- Empty events are excluded from the average
 
 | ID | Strain | ID | Strain |
 |---:|---|---:|---|
@@ -115,13 +116,6 @@ The data also contain 26 other IDs that are not one of the 12 strains. They
 are listed as "Unknown" in `final_results.csv`.
 
 ### 6.2 Asymmetry: wild type vs mutant
-
-![Asymmetry of the 6 wild-type/mutant pairs](asymmetry_plot.png)
-
-*Figure 1: Asymmetry A = (WT - mutant)/(WT + mutant) for each strain, with
-1σ error bars. The dashed line at A = 0 means no asymmetry. Blue points
-(P. aeruginosa and S. pneumoniae) are more than 3σ away from 0. The gray
-points are consistent with 0.*
 
 | Pair | X - (-X) | n σ | Asymmetry A | Asymmetric? |
 |---|---:|---:|---:|:---:|
@@ -179,7 +173,7 @@ The same test applied to the 12 other pairs of IDs in the data:
 |---|---:|---:|---:|:---:|
 | 3212 vs -3212 | 0.00173 ± 0.00097 | 1.78 | (0.57 ± 0.32)% | no |
 | 3222 vs -3222 | 0.00173 ± 0.00083 | 2.07 | (0.58 ± 0.28)% | no |
-| 3112 vs -3112 | 0.00202 ± 0.00080 | 2.52 | (0.68 ± 0.27)% | no (hint) |
+| 3112 vs -3112 | 0.00202 ± 0.00080 | 2.52 | (0.68 ± 0.27)% | no (but close) |
 | 3322 vs -3322 | 0.00026 ± 0.00035 | 0.76 | (0.34 ± 0.45)% | no |
 | 431 vs -431 | -0.00005 ± 0.00021 | 0.26 | (-0.23 ± 0.90)% | no |
 | 531 vs -531 | 0.00002 ± 0.00007 | 0.32 | (1.3 ± 3.9)% | no |
@@ -192,7 +186,7 @@ The same test applied to the 12 other pairs of IDs in the data:
 
 - **None of these 12 pairs reaches 3σ,** so none shows a significant
   asymmetry.
-- **3112 vs -3112** is the closest, at 2.5σ. That is a hint, but not enough
+- **3112 vs -3112** is the closest, at 2.5σ. That is close, but not enough
   to claim an asymmetry.
 - **The rarest pairs** (5132, 5232, 4332 and 5332, with 7–260 counts each)
   have such large uncertainties that they cannot show anything either way.
