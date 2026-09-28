@@ -94,27 +94,112 @@ the result is a number per event, it has no unit.
 
 ## 6. Results
 
-Average number per event over the full sample, with the statistical
-uncertainty from the spread of the 10 sub-samples:
+### 6.1 Average count per event (5M events, 10 sub-samples)
 
-| ID | Strain | Number per event (± stat.) |
-|---:|---|---:|
-| 211 | E. coli WT | 19.949 ± 0.033 |
-| -211 | E. coli mutant | 19.917 ± 0.032 |
-| 321 | Bacillus subtilis WT | 2.509 ± 0.005 |
-| -321 | Bacillus subtilis mutant | 2.503 ± 0.006 |
-| 2212 | Pseudomonas aeruginosa WT | 1.2080 ± 0.0019 |
-| -2212 | Pseudomonas aeruginosa antibiotic-resistant | 1.1842 ± 0.0024 |
-| 3122 | Streptococcus pneumoniae | 0.2766 ± 0.0011 |
-| -3122 | Capsule-deficient S. pneumoniae | 0.2717 ± 0.0010 |
-| 3312 | Mycobacterium tuberculosis | 0.03944 ± 0.00028 |
-| -3312 | Drug-resistant M. tuberculosis | 0.03900 ± 0.00040 |
-| 3334 | Salmonella enterica | 0.00119 ± 0.00004 |
-| -3334 | Salmonella mutant | 0.00115 ± 0.00005 |
+| ID | Strain | Total count | Average / event | Uncertainty |
+|---:|---|---:|---:|---:|
+| 211 | E. coli WT | 92,126,688 | 19.9495 | ± 0.0327 |
+| -211 | E. coli mutant | 91,977,542 | 19.9172 | ± 0.0319 |
+| 321 | Bacillus subtilis WT | 11,587,227 | 2.50915 | ± 0.00477 |
+| -321 | Bacillus subtilis mutant | 11,560,946 | 2.50346 | ± 0.00550 |
+| 2212 | Pseudomonas aeruginosa WT | 5,578,693 | 1.20803 | ± 0.00190 |
+| -2212 | P. aeruginosa antibiotic-resistant | 5,468,447 | 1.18416 | ± 0.00241 |
+| 3122 | Streptococcus pneumoniae | 1,277,330 | 0.276599 | ± 0.00107 |
+| -3122 | Capsule-deficient S. pneumoniae | 1,254,690 | 0.271696 | ± 0.000985 |
+| 3312 | Mycobacterium tuberculosis | 182,139 | 0.0394412 | ± 0.000284 |
+| -3312 | Drug-resistant M. tuberculosis | 180,104 | 0.0390005 | ± 0.000402 |
+| 3334 | Salmonella enterica | 5,482 | 0.00118710 | ± 0.0000417 |
+| -3334 | Salmonella mutant | 5,318 | 0.00115158 | ± 0.0000508 |
 
-Uncertainties are rounded to 1–2 significant figures and the central values
-to the same decimal place. The unrounded numbers are in
-`final_results.csv`.
+The data also contain 26 other IDs that are not one of the 12 strains. They
+are listed as "Unknown" in `final_results.csv`.
+
+### 6.2 Asymmetry: wild type vs mutant
+
+![Asymmetry of the 6 wild-type/mutant pairs](asymmetry_plot.png)
+
+*Figure 1: Asymmetry A = (WT - mutant)/(WT + mutant) for each strain, with
+1σ error bars. The dashed line at A = 0 means no asymmetry. Blue points
+(P. aeruginosa and S. pneumoniae) are more than 3σ away from 0. The gray
+points are consistent with 0.*
+
+| Pair | X - (-X) | n σ | Asymmetry A | Asymmetric? |
+|---|---:|---:|---:|:---:|
+| 211 vs -211 (E. coli) | 0.0323 ± 0.0457 | 0.71 | (0.08 ± 0.12)% | no |
+| 321 vs -321 (B. subtilis) | 0.00569 ± 0.00728 | 0.78 | (0.11 ± 0.15)% | no |
+| 2212 vs -2212 (P. aeruginosa) | 0.02387 ± 0.00307 | **7.78** | **(1.00 ± 0.13)%** | **yes** |
+| 3122 vs -3122 (S. pneumoniae) | 0.00490 ± 0.00145 | **3.37** | **(0.89 ± 0.27)%** | **yes** |
+| 3312 vs -3312 (M. tuberculosis) | 0.00044 ± 0.00049 | 0.90 | (0.56 ± 0.63)% | no |
+| 3334 vs -3334 (Salmonella) | 0.000036 ± 0.000066 | 0.54 | (1.5 ± 2.8)% | no |
+
+The averages of X and -X are in table 7.1.
+
+#### The answer for each pair, and why
+
+- **211 vs -211, E. coli: no asymmetry.**
+  - The WT is 0.0323 per event higher, but the uncertainty on that
+    difference is 0.0457, so the difference is only **0.71σ**.
+  - A difference this size is expected from statistical fluctuations alone.
+  - A = (0.08 ± 0.12)% is consistent with zero, so any real asymmetry is
+    smaller than about **0.4%**.
+- **321 vs -321, Bacillus subtilis: no asymmetry.**
+  - The difference is **0.78σ**, and A = (0.11 ± 0.15)% is consistent with
+    zero.
+  - Any real asymmetry is smaller than about **0.5%**.
+- **2212 vs -2212, Pseudomonas aeruginosa: yes, a clear asymmetry.**
+  - The wild type is 0.0239 per event more common than the
+    antibiotic-resistant strain.
+  - That is **7.8σ**, far above the 3σ threshold, so it cannot be a
+    statistical fluctuation.
+  - A = **(1.00 ± 0.13)%**.
+  - The wild type is also higher in **all 10** sub-samples.
+- **3122 vs -3122, Streptococcus pneumoniae: yes, an asymmetry.**
+  - The wild type is more common than the capsule-deficient strain by
+    **3.37σ**, which is above the 3σ threshold.
+  - A = **(0.89 ± 0.27)%**.
+  - The wild type is higher in **all 10** sub-samples.
+  - Because 3.37σ is only just above 3σ, this result is weaker than the one
+    for Pseudomonas.
+- **3312 vs -3312, Mycobacterium tuberculosis: no asymmetry.**
+  - The difference is **0.90σ**, and A = (0.56 ± 0.63)% is consistent with
+    zero.
+  - With about 180,000 counts per strain, the data can only rule out
+    asymmetries larger than about **2.5%**.
+- **3334 vs -3334, Salmonella: no asymmetry.**
+  - The difference is **0.54σ**.
+  - With only about 5,400 counts per strain, A = (1.5 ± 2.8)% is very
+    imprecise, so an asymmetry smaller than about **10%** cannot be ruled
+    out.
+
+### 6.3 Asymmetry: the other 12 particle/antiparticle pairs
+
+The same test applied to the 12 other pairs of IDs in the data:
+
+| Pair | X - (-X) | n σ | Asymmetry A | Asymmetric? |
+|---|---:|---:|---:|:---:|
+| 3212 vs -3212 | 0.00173 ± 0.00097 | 1.78 | (0.57 ± 0.32)% | no |
+| 3222 vs -3222 | 0.00173 ± 0.00083 | 2.07 | (0.58 ± 0.28)% | no |
+| 3112 vs -3112 | 0.00202 ± 0.00080 | 2.52 | (0.68 ± 0.27)% | no (hint) |
+| 3322 vs -3322 | 0.00026 ± 0.00035 | 0.76 | (0.34 ± 0.45)% | no |
+| 431 vs -431 | -0.00005 ± 0.00021 | 0.26 | (-0.23 ± 0.90)% | no |
+| 531 vs -531 | 0.00002 ± 0.00007 | 0.32 | (1.3 ± 3.9)% | no |
+| 4232 vs -4232 | 0.000003 ± 0.000042 | 0.07 | (0.2 ± 3.6)% | no |
+| 4132 vs -4132 | 0.000008 ± 0.000045 | 0.17 | (0.7 ± 3.9)% | no |
+| 5132 vs -5132 | 0.000014 ± 0.000020 | 0.70 | (14 ± 19)% | no |
+| 5232 vs -5232 | -0.000002 ± 0.000017 | 0.13 | (-2 ± 16)% | no |
+| 4332 vs -4332 | 0.000004 ± 0.000010 | 0.46 | (13 ± 31)% | no |
+| 5332 vs -5332 | 0.0000006 ± 0.0000032 | 0.20 | (18 ± 86)% | no |
+
+- **None of these 12 pairs reaches 3σ,** so none shows a significant
+  asymmetry.
+- **3112 vs -3112** is the closest, at 2.5σ. That is a hint, but not enough
+  to claim an asymmetry.
+- **The rarest pairs** (5132, 5232, 4332 and 5332, with 7–260 counts each)
+  have such large uncertainties that they cannot show anything either way.
+
+---
+
+
 
 ## 7. Notes and limitations
 
