@@ -32,8 +32,8 @@ and E. coli mutant = -211).
 | File | Purpose |
 |---|---|
 | `README.md` | Current file |
-| `<Week4Sub_Sampling.R>` | Counts every ID in each of the 10 data files, creating all of the sub-samples, which are outputted in a csv file as a list |
-| `<Week4Analysis.R>` | Reads the list and computes the final averages and uncertainties |
+| `Week4Sub_Sampling.R` | Counts every ID in each of the 10 data files, creating all of the sub-samples, which are outputted in a csv file as a list |
+| `Week4Analysis.R` | Reads the list and computes the final averages and uncertainties |
 | `sub_sample_results.csv` | Output of "Week4Sub_Sampling.R": count and average per ID for each file |
 | `final_results.csv` | Output of "Week4Analysis.R": final average ± uncertainty per ID |
 
@@ -44,12 +44,10 @@ can be downloaded here --> https://surfdrive.surf.nl/files/index.php/s/7udCnWTk4
 ## 3. How to run
 
 1. Put the 10 raw data files in the same folder as the scripts.
-2. Run the scripts in order:
-
-```bash
-<command for part 1>   # reads the raw data, writes sub_sample_results.csv
-<command for part 2>   # reads sub_sample_results.csv, writes final_results.csv
-```
+2. Open `Week4Sub_Sampling.R` in VS Code and press Run Code (Ctrl + Alt + N).
+   This reads the raw data and writes `sub_sample_results.csv`.
+3. Open `Week4Analysis.R` in VS Code and press Run Code (Ctrl + Alt + N).
+   This reads `sub_sample_results.csv` and writes `final_results.csv`.
 
 Part 2 only needs the CSV from part 1, so the final results can be
 reproduced without the raw data files.
@@ -84,7 +82,8 @@ The sub-sampling technique:
    (about 500K events) is one sub-sample.
 2. **Analyse each sub-sample separately:** for every ID, compute the
    average number per event in that file.
-3. **Central value:** the (weighted) average of the 10 sub-sample results.
+3. **Central value:** the inverse-variance weighted average of the 10
+   sub-sample results (weight = 1 / uncertainty² per sub-sample).
 4. **Statistical uncertainty:** the standard deviation of the 10
    sub-sample results.
 
@@ -93,19 +92,20 @@ sub-sample of about 500K events to another. Only the statistical
 uncertainty is quoted. No systematic uncertainty was evaluated, and since
 the result is a number per event, it has no unit.
 
+**Asymmetry test (Section 6.2/6.3):** for each pair X vs -X, the
+difference is computed **within each of the 10 sub-samples first**
+(differenceᵢ = averageᵢ(X) − averageᵢ(−X)), and only then combined: the
+reported difference is the mean of the 10 per-file differences, and its
+uncertainty is the standard deviation of those 10 differences. This is
+different from combining the two strains' already-finished uncertainties
+by quadrature (√(σ_X² + σ_-X²)), which assumes X and -X vary
+independently from file to file. They do not — both are counted in the
+same events, so a file with more bacteria overall tends to have more of
+both forms together. Taking the difference within each file first cancels
+that shared fluctuation before it is combined, which is why this method is
+used instead of quadrature.
+
 ## 6. Results
-
-New message from panos, which i still need to make sure to include on a later day
-Dear all,
-
-let me stress that the results that you are going to include in your updated README.md file should not contain only the average numbers per event for each ID together with their respective  uncertainties.
-
-These numbers allow you to answer the question of whether you have an asymmetry between the normal bacteria and the mutation strains, the various molecule pairs or between particles and antiparticles (i.e. the initial question you had to answer). This answer, for every pair of IDs (e.g. 211 vs -211, 321 vs -321,...), should also be reported and should not be based on your feelings but on your numbers so make sure you argue why you answer the way you do.
-
-You do have all the tools to answer this!
-Best regards
-
-Panos
 
 ### 6.1 Average count per event (5M events, 10 sub-samples)
 
@@ -131,51 +131,46 @@ are listed as "Unknown" in `final_results.csv`.
 
 | Pair | X - (-X) | n σ | Asymmetry A | Asymmetric? |
 |---|---:|---:|---:|:---:|
-| 211 vs -211 (E. coli) | 0.0323 ± 0.0457 | 0.71 | (0.08 ± 0.12)% | no |
-| 321 vs -321 (B. subtilis) | 0.00569 ± 0.00728 | 0.78 | (0.11 ± 0.15)% | no |
-| 2212 vs -2212 (P. aeruginosa) | 0.02387 ± 0.00307 | **7.78** | **(1.00 ± 0.13)%** | **yes** |
-| 3122 vs -3122 (S. pneumoniae) | 0.00490 ± 0.00145 | **3.37** | **(0.89 ± 0.27)%** | **yes** |
-| 3312 vs -3312 (M. tuberculosis) | 0.00044 ± 0.00049 | 0.90 | (0.56 ± 0.63)% | no |
-| 3334 vs -3334 (Salmonella) | 0.000036 ± 0.000066 | 0.54 | (1.5 ± 2.8)% | no |
+| 211 vs -211 (E. coli) | 0.0323 ± 0.0045 | **7.15** | **(0.08 ± 0.01)%** | **yes** |
+| 321 vs -321 (B. subtilis) | 0.00569 ± 0.00329 | 1.73 | (0.11 ± 0.07)% | no |
+| 2212 vs -2212 (P. aeruginosa) | 0.02387 ± 0.00237 | **10.06** | **(1.00 ± 0.10)%** | **yes** |
+| 3122 vs -3122 (S. pneumoniae) | 0.00490 ± 0.00058 | **8.41** | **(0.89 ± 0.11)%** | **yes** |
+| 3312 vs -3312 (M. tuberculosis) | 0.00044 ± 0.00049 | 0.90 | (0.56 ± 0.62)% | no |
+| 3334 vs -3334 (Salmonella) | 0.000036 ± 0.000069 | 0.52 | (1.5 ± 2.9)% | no |
 
-The averages of X and -X are in table 7.1.
+The averages of X and -X are in table 6.1.
 
 #### The answer for each pair, and why
 
-- **211 vs -211, E. coli: no asymmetry.**
-  - The WT is 0.0323 per event higher, but the uncertainty on that
-    difference is 0.0457, so the difference is only **0.71σ**.
-  - A difference this size is expected from statistical fluctuations alone.
-  - A = (0.08 ± 0.12)% is consistent with zero, so any real asymmetry is
-    smaller than about **0.4%**.
+- **211 vs -211, E. coli: yes, a significant asymmetry.**
+  - The WT is 0.0323 per event more common, and once the difference is
+    taken per file (accounting for the strong file-to-file correlation
+    between the two counts), the uncertainty shrinks to 0.0045 — a
+    **7.15σ** effect.
+  - A = **(0.08 ± 0.01)%**. Small in absolute terms, but measured
+    precisely because E. coli is so abundant.
 - **321 vs -321, Bacillus subtilis: no asymmetry.**
-  - The difference is **0.78σ**, and A = (0.11 ± 0.15)% is consistent with
+  - The difference is **1.73σ**, and A = (0.11 ± 0.07)% is consistent with
     zero.
-  - Any real asymmetry is smaller than about **0.5%**.
+  - Any real asymmetry is smaller than about 0.3%.
 - **2212 vs -2212, Pseudomonas aeruginosa: yes, a clear asymmetry.**
   - The wild type is 0.0239 per event more common than the
     antibiotic-resistant strain.
-  - That is **7.8σ**, far above the 3σ threshold, so it cannot be a
-    statistical fluctuation.
-  - A = **(1.00 ± 0.13)%**.
-  - The wild type is also higher in **all 10** sub-samples.
+  - That is **10.06σ**, far above the 3σ threshold.
+  - A = **(1.00 ± 0.10)%**.
 - **3122 vs -3122, Streptococcus pneumoniae: yes, an asymmetry.**
   - The wild type is more common than the capsule-deficient strain by
-    **3.37σ**, which is above the 3σ threshold.
-  - A = **(0.89 ± 0.27)%**.
-  - The wild type is higher in **all 10** sub-samples.
-  - Because 3.37σ is only just above 3σ, this result is weaker than the one
-    for Pseudomonas.
+    **8.41σ**.
+  - A = **(0.89 ± 0.11)%**.
 - **3312 vs -3312, Mycobacterium tuberculosis: no asymmetry.**
-  - The difference is **0.90σ**, and A = (0.56 ± 0.63)% is consistent with
+  - The difference is **0.90σ**, and A = (0.56 ± 0.62)% is consistent with
     zero.
   - With about 180,000 counts per strain, the data can only rule out
-    asymmetries larger than about **2.5%**.
+    asymmetries larger than about 2.4%.
 - **3334 vs -3334, Salmonella: no asymmetry.**
-  - The difference is **0.54σ**.
-  - With only about 5,400 counts per strain, A = (1.5 ± 2.8)% is very
-    imprecise, so an asymmetry smaller than about **10%** cannot be ruled
-    out.
+  - The difference is **0.52σ**.
+  - With only about 5,400 counts per strain, A = (1.5 ± 2.9)% is very
+    imprecise, so an asymmetry smaller than about 10% cannot be ruled out.
 
 ### 6.3 Asymmetry: the other 12 particle/antiparticle pairs
 
@@ -183,29 +178,26 @@ The same test applied to the 12 other pairs of IDs in the data:
 
 | Pair | X - (-X) | n σ | Asymmetry A | Asymmetric? |
 |---|---:|---:|---:|:---:|
-| 3212 vs -3212 | 0.00173 ± 0.00097 | 1.78 | (0.57 ± 0.32)% | no |
-| 3222 vs -3222 | 0.00173 ± 0.00083 | 2.07 | (0.58 ± 0.28)% | no |
-| 3112 vs -3112 | 0.00202 ± 0.00080 | 2.52 | (0.68 ± 0.27)% | no (but close) |
-| 3322 vs -3322 | 0.00026 ± 0.00035 | 0.76 | (0.34 ± 0.45)% | no |
-| 431 vs -431 | -0.00005 ± 0.00021 | 0.26 | (-0.23 ± 0.90)% | no |
-| 531 vs -531 | 0.00002 ± 0.00007 | 0.32 | (1.3 ± 3.9)% | no |
-| 4232 vs -4232 | 0.000003 ± 0.000042 | 0.07 | (0.2 ± 3.6)% | no |
-| 4132 vs -4132 | 0.000008 ± 0.000045 | 0.17 | (0.7 ± 3.9)% | no |
+| 3212 vs -3212 | 0.00173 ± 0.00076 | 2.26 | (0.57 ± 0.25)% | no |
+| 3222 vs -3222 | 0.00173 ± 0.00059 | 2.93 | (0.58 ± 0.20)% | no |
+| 3112 vs -3112 | 0.00202 ± 0.00046 | **4.43** | **(0.68 ± 0.15)%** | **yes** |
+| 3322 vs -3322 | 0.00026 ± 0.00030 | 0.88 | (0.34 ± 0.39)% | no |
+| 431 vs -431 | -0.00005 ± 0.00017 | 0.32 | (-0.23 ± 0.74)% | no |
+| 531 vs -531 | 0.00002 ± 0.00008 | 0.32 | (1.3 ± 3.9)% | no |
+| 4232 vs -4232 | 0.000003 ± 0.000033 | 0.09 | (0.2 ± 2.7)% | no |
+| 4132 vs -4132 | 0.000008 ± 0.000041 | 0.19 | (0.7 ± 3.5)% | no |
 | 5132 vs -5132 | 0.000014 ± 0.000020 | 0.70 | (14 ± 19)% | no |
-| 5232 vs -5232 | -0.000002 ± 0.000017 | 0.13 | (-2 ± 16)% | no |
-| 4332 vs -4332 | 0.000004 ± 0.000010 | 0.46 | (13 ± 31)% | no |
-| 5332 vs -5332 | 0.0000006 ± 0.0000032 | 0.20 | (18 ± 86)% | no |
+| 5232 vs -5232 | -0.000002 ± 0.000016 | 0.14 | (-2 ± 15)% | no |
+| 4332 vs -4332 | 0.000004 ± 0.000012 | 0.37 | (13 ± 36)% | no |
+| 5332 vs -5332 | 0.0000006 ± 0.0000035 | 0.18 | (18 ± 86)% | no |
 
-- **None of these 12 pairs reaches 3σ,** so none shows a significant
-  asymmetry.
-- **3112 vs -3112** is the closest, at 2.5σ. That is close, but not enough
-  to claim an asymmetry.
-- **The rarest pairs** (5132, 5232, 4332 and 5332, with 7–260 counts each)
+- **1 of the 12 pairs is above 3σ:** 3112 vs -3112, at 4.43σ, with
+  A = (0.68 ± 0.15)%. 3222 (2.93σ) is close but does not cross the
+  threshold.
+- **The rarest pairs** (5132, 5232, 4332, 5332, with 7–260 counts each)
   have such large uncertainties that they cannot show anything either way.
 
 ---
-
-
 
 ## 7. Notes and limitations
 
@@ -216,10 +208,14 @@ The same test applied to the 12 other pairs of IDs in the data:
 - **Wild type vs mutant.** For each strain the wild type and the mutant
   have similar averages (for example E. coli: 19.949 vs 19.917). The counts
   of a wild type and its mutant come from the same events and can be
-  correlated, so the uncertainty on their difference should not be
-  obtained by simply adding the two uncertainties in quadrature. A
-  difference should be computed within each sub-sample and the spread taken
-  over those values.
-- **Empty events.** <state here whether events with no bacteria were counted
-  in the number of events, and the resulting total number of events>
+  correlated, so the uncertainty on their difference is not obtained by
+  simply adding the two uncertainties in quadrature. A difference is
+  computed within each sub-sample and the spread taken over those values
+  (see Section 5).
+- **Empty events.** Events with 0 bacteria were excluded from the event
+  count used in the average (though they were still scanned to check
+  their header). Across the 10 sub-samples, 4,617,993 of the nominal
+  5,000,000 events contained at least one bacterium and were used in the
+  averages; the remaining 382,007 events (about 7.6%) were empty and
+  excluded.
 - **Statistical only.** No systematic uncertainty was estimated.
